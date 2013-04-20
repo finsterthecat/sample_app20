@@ -45,6 +45,13 @@ Spork.prefork do
     # the seed, which is printed after each run.
     #     --seed 1234
     config.order = "random"
+
+    #
+    # Added by Tony
+    # Need this to get the urls to work.
+    # See: http://stackoverflow.com/questions/8435525/where-should-i-store-methods-to-make-them-available-both-to-my-application-and-t/8953304#8953304
+    #
+    config.include Rails.application.routes.url_helpers
   end
 
 end
