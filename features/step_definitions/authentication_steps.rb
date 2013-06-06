@@ -22,7 +22,7 @@ When /^the user submits valid signin information$/ do
 end
 
 Then /^he should see his profile page$/ do
-  expect(page).to have_title(@user.name)
+  page.should have_selector('title', text: @user.name)
 end
 
 Then /^he should see a signout link$/ do

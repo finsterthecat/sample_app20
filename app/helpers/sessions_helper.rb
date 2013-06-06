@@ -18,6 +18,10 @@ module SessionsHelper
 		@current_user = user
 	end
 
+	def current_user?(user)
+		user == current_user
+	end
+
 	# Slightly modified from tutorial to protect against user in db with null remember_token
 	def current_user
 		if @current_user then
@@ -28,4 +32,14 @@ module SessionsHelper
 			nil
 		end
 	end
-end
+
+	def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    session.delete(:return_to)
+  end
+
+  def store_location
+    session[:return_to] = request.url
+  end
+
+end	
