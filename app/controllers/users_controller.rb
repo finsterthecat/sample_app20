@@ -51,18 +51,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
+  end
+
   private
     def not_signed_in_user
       if signed_in?
         flash[:success] = "Already signed in!"
         redirect_to root_path
-      end
-    end
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in" unless signed_in?
       end
     end
 
@@ -74,4 +72,5 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to(root_path) unless current_user.admin?
     end
+
 end
