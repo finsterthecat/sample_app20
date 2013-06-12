@@ -31,7 +31,45 @@ describe "Static pages" do
           page.should have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      it "should display feed micropost count" do
+        page.should have_selector("span", text: "2 microposts")
+      end
     end
+
+    describe "for micropost counts" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        sign_in user
+        visit root_path
+      end
+
+      it "should display count for 0 post" do
+        page.should have_selector("span", text: "0 microposts")
+      end
+
+      describe "for 1 or more posts" do
+        before do
+          FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+          visit root_path
+        end
+        it "should display feed micropost count for 1 post" do
+          page.should have_selector("span", text: "1 micropost")
+        end
+
+        describe "for 2 posts" do
+          before do
+            FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet yeah!")
+            visit root_path
+          end
+          it "should display feed micropost count for 2 posts" do
+            page.should have_selector("span", text: "2 microposts")
+          end
+        end
+      end
+
+    end
+
   end
 
   describe "Help page" do
